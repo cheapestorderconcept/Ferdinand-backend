@@ -11,13 +11,11 @@ const { productModel } = require('../../../../model/product');
 
 const validation = joi.object({
     product_name: joi.string().required(),
-    product_pictures: joi.array(),
+    product_pictures: joi.string(),
     product_price: joi.string().required(),
     product_description: joi.string().required(),
-    color: joi.array().required(),
-    size: joi.array().required(),
-    flash_sales: joi.boolean().required(),
-    product_categories: joi.string().required()
+    flash_sales: joi.boolean(),
+    product_categories: joi.string()
 })
 
 const uploadProduct = async function uploadProduct(req, res, next) {

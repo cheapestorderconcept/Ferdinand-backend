@@ -12,7 +12,7 @@ const productSchema = new schema({
     product_categories : {type: String, required:true},
     product_reviews: [],
     product_quantity: {type:Number, default:0},
-    product_pictures: {type:[], required: true},
+    product_pictures: {type:String, required: true},
     flash_sales: {type:Boolean, default:false}
 },{
     timestamps:true
