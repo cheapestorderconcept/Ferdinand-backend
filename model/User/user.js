@@ -8,6 +8,8 @@ const userSchema = new schema({
     first_name: {type:String, required:true},
     last_name: {type:String, required:true},
     phone_number: {type:String}, 
+    image: {type:String},
+    points: {type:Number, default:0},
     email: {type:String, required:true, unique:true},
     role: {type:String, default:'client'},
     password: {type:String, required:true}

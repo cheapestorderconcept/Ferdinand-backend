@@ -3,7 +3,7 @@ const { changePassword } = require('../controller/User/Auth/change-password');
 const { contactSupport } = require('../controller/User/Auth/contact-support');
 const { loginUser } = require('../controller/User/Auth/login');
 const { firebaseToken } = require('../controller/User/Auth/notification_token');
-const { profile, deleteProfile } = require('../controller/User/Auth/profile');
+const { profile, deleteProfile,updateProfile } = require('../controller/User/Auth/profile');
 const { resetPassword } = require('../controller/User/Auth/reset-password');
 const { addShippingInfo, updateAddress, viewShippingAddress, deleteAddress } = require('../controller/User/Auth/shipping-address');
 const { registerUser } = require('../controller/User/Auth/signup');
@@ -29,6 +29,7 @@ router.get('/flash-sales-products', flashSalesProduct);
 router.get('/view-single-products/:productId', userGetSingleProduct);
 router.use(verifyToken);
 router.get('/profile', profile);
+router.put('/update-profile', updateProfile)
 router.delete('/delete-profile', deleteProfile);
 router.post('/change-password', changePassword)
 router.post('/support',contactSupport)

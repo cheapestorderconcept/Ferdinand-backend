@@ -10,7 +10,7 @@ const { orderModel, orderStatus } = require('../../../../model/order');
 const updateClientOrder = async function updateClientOrder(req,res,next) {
     try {
         const {orderId} = req.query;
-        if (!orderId) {
+        if (!orderId|| typeof orderId ==null) {
             const e = new HttpError(400, "OrderId is missing in your query params");
             return next(e);
         }

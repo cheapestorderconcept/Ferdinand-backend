@@ -1,17 +1,12 @@
 
 const mongoose = require('mongoose');
 
-
 const shippingAddressSchema = new mongoose.Schema({
     phone_number : {type:String, required:true},
     first_name: {type:String, required:true},
     last_name: {type:String, required:true},
-    address_line_one: {type:String, required:true},
-    address_line_two: {type: String},
-    city: {type:String},
-    zip_code: {type:String},
-    is_default: {type: Boolean},
-    country: {type:String},
+    address: {type:String, required:true},
+    land_region: {type:String},
     user: {type:mongoose.Types.ObjectId, ref:'user'},
  
 },{
@@ -20,7 +15,6 @@ const shippingAddressSchema = new mongoose.Schema({
 
 
 shippingAddressSchema.statics.addShippingAddress = async function addingShippingAddress(shippingDetails) {
-    console.log(shippingDetails);
     const newAddress = new Shipping(
         shippingDetails);
     const address = await newAddress.save();

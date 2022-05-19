@@ -21,6 +21,14 @@ const addFavoritesProduct = async function addFavoritesProduct(req,res,next) {
             product,
             user: userId
         }
+        // console.log(details);
+        const isExists = await favoritesProductModel.find({});
+        console.log(isExists);
+        return;
+        if (isExists) {
+            const e = new HttpError(400, "You already add this product to your wishlist");
+            return next(e);
+        }
         const fav =await  favoritesProductModel.addToFavorites(details);
         fav.save().then((favs)=>{
             httpResponse({status_code:201, response_message:'Product added to your favorites list', data:{favorites:favs},res});

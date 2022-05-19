@@ -24,6 +24,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
             currency: 'usd',
             payment_method_types: ['card'],
           });
+          console.log(paymentIntent);
           httpResponse({status_code:201, response_message:'Payment intent created', data: {client_secret: paymentIntent.client_secret}, res});
     } catch (error) {
         console.log(error);

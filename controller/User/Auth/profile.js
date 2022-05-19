@@ -22,6 +22,21 @@ const profile = async function profile(req,res,next) {
     }
 }
 
+const updateProfile = async function updateProfile(req,res,next){
+    try {
+        const {data} = req.body;
+        const {userId} = req.userData;
+        const updatedProfile = await User.updateUser(userId, data);
+        if (updatedProfile) {
+            httpResponse({status_code:200, response_message:"Profile successfully updated", res});
+        } else {
+          return next(new HttpError(500, "Unable to update your profile. Contact support")) ;
+        }
+    } catch (error) {
+        return next(new HttpError(500, "Unable to update your profile. Contact support")) ;
+    }
+}
+
 const deleteProfile = async function deleteProfile(req,res,next) {
     try {
         const {userId} = req.userData;
@@ -39,5 +54,6 @@ const deleteProfile = async function deleteProfile(req,res,next) {
 
 module.exports={
     profile,
+    updateProfile,
     deleteProfile
 }

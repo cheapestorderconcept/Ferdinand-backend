@@ -25,6 +25,7 @@ const orderSchema = new schema({
     logistic_website: {type:String},
     tracking_number: {type: String, },
     shipping_address: {type:{}, required:true},
+    arrived_by: {type:String},
     quantity: {type:Number, required:true},
 },{
     timestamps:true

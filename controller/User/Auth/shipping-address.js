@@ -8,12 +8,9 @@ const val = joi.object({
     phone_number : joi.string().required(),
     first_name: joi.string(),
     last_name: joi.string(),
-    address_line_one: joi.string().required(),
-    address_line_two: joi.any(),
-    city: joi.any(),
-    zip_code: joi.string(),
-    is_default: joi.bool(),
-    country: joi.string().required()
+    address: joi.string().required(),
+    land_region: joi.string(),
+    
 })
 
 
