@@ -15,6 +15,8 @@ const validation = joi.object({
     product_price: joi.string().required(),
     product_description: joi.string().required(),
     flash_sales: joi.boolean(),
+    vat: joi.string(),
+    about_product: joi.string(),
     product_categories: joi.string()
 })
 

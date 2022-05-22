@@ -7,6 +7,7 @@ const shippingAddressSchema = new mongoose.Schema({
     last_name: {type:String, required:true},
     address: {type:String, required:true},
     land_region: {type:String},
+    zip_code: {type:String},
     user: {type:mongoose.Types.ObjectId, ref:'user'},
  
 },{
@@ -22,9 +23,7 @@ shippingAddressSchema.statics.addShippingAddress = async function addingShipping
 }
 
 shippingAddressSchema.statics.updateAddress = async function updateAddress(addressId, data) {
-    const updatedAddress = await Shipping.findOneAndUpdate({_id:addressId}, {
-        shipping_details: data
-    },{upsert:true, new:true});
+    const updatedAddress = await Shipping.findOneAndUpdate({_id:addressId},data,{upsert:true, new:true});
     return updatedAddress;
 }
 

@@ -1,0 +1,29 @@
+
+  <div style="background-color: #fff; margin: 0 auto;">
+    <p style="font-size: 14px;">
+     
+    </p>
+    <p style="font-size: 14px;">
+      Hi <%=first_name%>, Ihre Bestellung ist eingegangen. Nachfolgend finden Sie eine Zusammenfassung Ihrer Bestell- und Versanddetails.
+    </p>
+    <div>
+</div>
+    <p style="font-size: 14px;">
+      <strong><p>Ihre Lieferadresse</p></strong>
+      <strong><p>Empfängername: <%=first_name%> <%=last_name%></p></strong>
+      <strong><p>Empfängeradresse: <%=address%></p></strong>
+      <strong><p>Landregion ansprechen: <%=address%></p></strong>
+      <strong><p>Telefonnummer: <%=phone_number%></p></strong>
+   </p>
+  <p style="font-size: 14px;">
+    <strong><p>DETAILS DER AUFGEGEBENEN BESTELLUNG</p></strong>
+    <% order.forEach(function(product){ %>
+        <strong><p>Produktname: <%=product.product_name%></p></strong>
+        <strong><p>Bestellmenge: <%=product.qty%></p></strong>
+        <strong><p>Produktpreis: <%=product.item_price%></p></strong>
+        <strong><p>Gesamtsumme: <%=product.product_price%></p></strong>
+        <strong><p>Zahlung MwSt: <%=product.vat%></p></strong>
+      <% }); %>
+    </p>
+    <p>Brauchen Sie Hilfe? Bitte kontaktieren Sie den Support über das App-Hilfezentrum und wir werden uns innerhalb von 24 Stunden bei Ihnen melden.</p>
+    <strong><p>Ferdinandcoffee Team</p></strong>

@@ -10,12 +10,14 @@ const val = joi.object({
     last_name: joi.string(),
     address: joi.string().required(),
     land_region: joi.string(),
+    zip_code: joi.string()
     
 })
 
 
 
 const addShippingInfo = async function addShippingInfo(req,res,next) {  
+    console.log("reaching here");
     try {
     const bodyVal = await val.validateAsync(req.body);
     const {userId} = req.userData;
@@ -23,10 +25,29 @@ const addShippingInfo = async function addShippingInfo(req,res,next) {
         user: userId,
         ...bodyVal
     }
-    const newAddress = await Shipping.addShippingAddress(details);
-        if (newAddress) {
-            httpResponse({status_code:201, response_message:'Your shipping address has been successfully added', data:{newAddress},res});
-            return 
+    const existingAdd = await Shipping.getAddress(userId);  
+  
+        if (!existingAdd) {
+            console.log(existingAdd);
+            const newAddress = await Shipping.addShippingAddress(details);
+            if (newAddress) {
+                httpResponse({status_code:201, response_message:'Your shipping address has been successfully added', data:{newAddress},res});
+                return   
+            }
+           
+        }else{
+          
+            const updatedAddress = await Shipping.updateAddress(existingAdd._id, details);
+            
+            if (updatedAddress) {
+                console.log("i am updated");
+                console.log(updatedAddress);
+                httpResponse({status_code:200, response_message:'Address successfully updated', data:{},res});
+                return  
+            } else {
+               return next(new HttpError(400, "Address not updated")); 
+            }
+            
         }
         const e = new HttpError(500, 'We are unable to add your shipping address at the moment. Please contact support if persists');
         return next(e);

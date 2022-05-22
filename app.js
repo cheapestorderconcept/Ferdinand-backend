@@ -10,6 +10,7 @@ const appRouter = require('./routes/routes');
 const adminRoutes = require('./routes/admin-routes');
 
 app.use(express.json());
+app.set("view engine", "ejs");
 app.use(cors());
 app.use('/api/v1/admin/',adminRoutes)
 app.use('/api/v1/client', appRouter)

@@ -8,7 +8,7 @@ const { orderModel } = require("../../../../model/order");
 const viewClientPlacedOrder = async function viewClientPlacedOrder(params) {
     try {
      const {orderStatus} = req.query;
-       const clientPlacedOrder = await orderModel.adminGetOrderByStatus(orderStatus);
+       const clientPlacedOrder = await orderModel.find({});
          if (clientPlacedOrder.length>0) {
             httpResponse({status_code:200, response_message:'Placed orders', data:{clientPlacedOrder},res});
          }else{

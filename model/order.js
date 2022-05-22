@@ -18,6 +18,8 @@ const orderSchema = new schema({
     user: {type:mongoose.Types.ObjectId, ref:'user', required:true},
     order_status: {type:String, default: orderStatus.pending},
     product_name: {type:String},
+    product_type: {type:String},
+    vat: {type:Number},
     product_image: {type:String},
     product_color: {type:String},
     product_size: {type:String},

@@ -5,6 +5,9 @@ const joiError = require('../../../middlewares/errors/joi-error');
 const { httpResponse } = require('../../../middlewares/http/http-response');
 const { orderModel } = require('../../../model/order');
 const { Shipping } = require('../../../model/User/shipping-address');
+const ejs = require("ejs");
+const path = require("path");
+const { OrderPlacementAlert, ClientOrderAlert } = require('../../sengiridMessages/email-verification');
 const validation = joi.object({
      items: joi.array().min(1),
 
@@ -12,7 +15,7 @@ const validation = joi.object({
 
 const placeOrder = async function placeOrder(req,res,next) {    
     try {  
-        const {userId} = req.userData;
+        const {userId,email} = req.userData;
         const shippingAddress = await Shipping.getAddress(userId);
         const bodyValidation = await validation.validateAsync(req.body);
         const {items} = bodyValidation;
@@ -23,6 +26,8 @@ const placeOrder = async function placeOrder(req,res,next) {
                 const orderDetails ={
                     product_name: order.product_name,
                     total_price: order.product_price,
+                    vat: order.vat,
+                    product_type: order.product_type,
                     user: userId,
                     product_color:order.product_color,
                     product_size: order.product_size,
@@ -34,6 +39,32 @@ const placeOrder = async function placeOrder(req,res,next) {
             if (addOrders) {
                 returnArray[index] = {product_name: '', product_price: 0}
                 if (Object.keys(returnArray).length==items.length) {
+                    const {first_name, last_name, address, phone_number} = shippingAddress;
+                    ejs.renderFile(path.join(__dirname, "../../../views/client-order-email.ejs"), {
+                        order: items,
+                        first_name,
+                        last_name,
+                        
+                        address,
+                        phone_number,
+                    },{})
+                    .then(result=>{
+                  ClientOrderAlert(result, first_name, email);
+                    }).catch((err)=>{
+                        console.log(err);
+                    });
+                    ejs.renderFile(path.join(__dirname, "../../../views/admin-order-email.ejs"), {
+                        order: items,
+                        first_name,
+                        last_name,
+                        address,
+                        phone_number,
+                    },{})
+                    .then(result=>{
+                    OrderPlacementAlert(result, first_name); 
+                    }).catch((err)=>{
+                        console.log(err);
+                    });
                   httpResponse({status_code:200, response_message:'Your order has been successfully placed',data:{},res});
                 }
             }

@@ -8,13 +8,14 @@ const { orderModel } = require("../../../model/order");
 
 const myOrder = async function myOrder(req,res,next) {
     try {
-        const {userId} = req.userData;
+        const {userId,role} = req.userData;
         const {orderStatus} = req.query;
         let placedOrder = [];
-        if (orderStatus) {
-            placedOrder = await orderModel.userGetOrderByStatus(userId, orderStatus);
-        }else{
+       
+        if (role!="admin") {
             placedOrder = await orderModel.userGetOrder(userId);
+        }else{
+            placedOrder = await orderModel.find({}); 
         }
         if (placedOrder&&placedOrder.length>0) {
             httpResponse({status_code:200, response_message:'Order Placed List', data: {placedOrder},res});

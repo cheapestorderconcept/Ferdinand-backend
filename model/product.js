@@ -12,6 +12,7 @@ const productSchema = new schema({
     discount: {type:Number},
     status: {type:String},
     about_product:{type:String},
+    vat: {type:Number},
     product_description: {type:String, required:true},
     product_categories : {type: String, required:true},
     product_reviews: [],
