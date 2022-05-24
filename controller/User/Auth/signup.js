@@ -11,7 +11,8 @@ const bodyValidation = joi.object({
     email: joi.string().email(),
     password: joi.string(),
     first_name: joi.string().required(),
-    last_name: joi.string().required()
+    last_name: joi.string().required(), 
+    phone_number: joi.string(),
 })
 
 const registerUser = async function registerUser(req,res,next) {
