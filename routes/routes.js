@@ -10,7 +10,7 @@ const { registerUser } = require('../controller/User/Auth/signup');
 const { placeOrder } = require('../controller/User/order/place-order');
 const { myOrder } = require('../controller/User/order/view-order');
 const { initiatePayment } = require('../controller/User/payment/stripe');
-const { addFavoritesProduct, favoritesList } = require('../controller/User/product/favorites');
+const { addFavoritesProduct, favoritesList, deleteFavoritedProduct } = require('../controller/User/product/favorites');
 const { recommendedProducts } = require('../controller/User/product/recommended_products');
 const { userGetAllProduct, userGetSingleProduct, flashSalesProduct } = require('../controller/User/product/view-product');
 const { addProductToWishList, viewWishlist } = require('../controller/User/product/wishlist');
@@ -36,7 +36,8 @@ router.post('/support',contactSupport)
 router.post('/add-wishlist', addProductToWishList)
 router.post('/add-favorites',addFavoritesProduct)
 router.get('/view-wishlist', viewWishlist)
-router.get('/view-favorites', favoritesList)
+router.get('/view-favorites', favoritesList);
+router.delete('/delete-favorites?', deleteFavoritedProduct);
 
 
 

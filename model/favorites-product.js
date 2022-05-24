@@ -20,6 +20,11 @@ favoritesProductSchema.statics.viewFavorites = async function viewFavorites(user
     const list = await favoritesProductModel.find({user:userId});
     return list;
 }
+
+favoritesProductSchema.statics.deleteFavorites = async function viewFavorites(userId, userId) {
+    const list = await favoritesProductModel.findOneAndDelete({user:userId, _id:productId});
+    return list;
+}
 const favoritesProductModel = mongoose.model('favorites-product', favoritesProductSchema);
 
 module.exports={

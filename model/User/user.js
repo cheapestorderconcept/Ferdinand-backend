@@ -20,10 +20,11 @@ const userSchema = new schema({
 
 
 userSchema.statics.createNewUser = async function createNewUser(details, data) {
-    const {first_name, last_name, email} = details;
+    const {first_name, last_name, email, phone_number} = details;
     const user = new User({
         first_name,
         last_name,
+        phone_number,
         email,
         password: data.password
     });

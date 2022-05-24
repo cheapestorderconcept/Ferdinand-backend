@@ -58,4 +58,24 @@ const favoritesList = async function favoriteList(req,res,next) {
     }
 }
 
-module.exports={favoritesList,addFavoritesProduct}
+
+const deleteFavoritedProduct = async function deleteFavoritedProduct(req,res,next){
+    try {
+        const {productId} = req.query;
+        const {userId} = req.userData;
+        const favorites = await favoritesProductModel.deleteFavorites(userId, productId);
+        if (favorites) {
+            httpResponse({status_code: 200, response_message:'Products deleted from wishlist', data:{favoriteList:favorites},res});
+            return; 
+        }else{
+            const e = new HttpError(500, 'An error occured with the system');
+            return next(e) 
+        }
+    } catch (error) {
+        console.log(error);
+        const e = new HttpError(500, 'An error occured with the system');
+        return next(e)
+    }
+}
+
+module.exports={favoritesList,addFavoritesProduct, deleteFavoritedProduct}
