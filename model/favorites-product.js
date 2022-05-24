@@ -21,7 +21,7 @@ favoritesProductSchema.statics.viewFavorites = async function viewFavorites(user
     return list;
 }
 
-favoritesProductSchema.statics.deleteFavorites = async function viewFavorites(userId, userId) {
+favoritesProductSchema.statics.deleteFavorites = async function deleteFavorites(userId, productId) {
     const list = await favoritesProductModel.findOneAndDelete({user:userId, _id:productId});
     return list;
 }

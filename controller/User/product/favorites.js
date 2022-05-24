@@ -65,7 +65,7 @@ const deleteFavoritedProduct = async function deleteFavoritedProduct(req,res,nex
         const {userId} = req.userData;
         const favorites = await favoritesProductModel.deleteFavorites(userId, productId);
         if (favorites) {
-            httpResponse({status_code: 200, response_message:'Products deleted from wishlist', data:{favoriteList:favorites},res});
+            httpResponse({status_code: 200, response_message:'Products deleted from wishlist. Refresh the page', data:{favoriteList:favorites},res});
             return; 
         }else{
             const e = new HttpError(500, 'An error occured with the system');
