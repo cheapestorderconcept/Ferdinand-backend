@@ -17,10 +17,10 @@ const updateProduct = async function updateProduct(req, res, next) {
             const e = new HttpError(400, 'ProductId should be passed has params');
             return next(e);
         }
-        const { product_name, product_price, product_description,vat } = req.body;
+        const { product_name, product_variants, product_description,vat } = req.body;
         const data = {
             product_name, 
-            product_price,
+            product_variants,
             vat,
             about_product: product_description,
         }

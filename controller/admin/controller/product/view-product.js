@@ -23,6 +23,7 @@ const currentFlashSales = async function currentFlashSales(params) {
 const viewOutOfStock = async function viewOutOfStock(req,res,next) {
     try {
         const product = await  productModel.getProduct();
+        console.log(product);
         const outofstock = product.filter(prod=>prod.product_quantity==0);
         httpResponse({status_code:200, response_message:'out of stock product', data:{outofstock},res});
     } catch (error) {
@@ -35,6 +36,7 @@ const viewOutOfStock = async function viewOutOfStock(req,res,next) {
 const getAllProduct = async function getAllProduct(req,res,next) {   
     try {
         const product = await  productModel.getProduct();
+        console.log(product);
         if (product&&product.length>0) {
             httpResponse({status_code:200, response_message:'Product available', data:{product}, res});
         }else{

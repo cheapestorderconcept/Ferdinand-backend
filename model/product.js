@@ -13,6 +13,7 @@ const productSchema = new schema({
     status: {type:String},
     about_product:{type:String},
     vat: {type:Number},
+    product_variants: {type:Array},
     product_description: {type:String, required:true},
     product_categories : {type: String, required:true},
     product_reviews: [],
