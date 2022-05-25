@@ -6,7 +6,6 @@ const schema = mongoose.Schema;
 
 const productSchema = new schema({
     product_name: {type:String, required:true},
-    product_price: {type: Number, required:true},
     views: {type:Number, default:0},
     units: {type:String},
     discount: {type:Number},
