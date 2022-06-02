@@ -13,9 +13,10 @@ const validation = joi.object({
 
 });
 
+const german = process.env.SUPPORTED_LANGUAGE
 const placeOrder = async function placeOrder(req,res,next) {    
     try {  
-        const {userId,email} = req.userData;
+        const {userId,email, language} = req.userData;
         const shippingAddress = await Shipping.getAddress(userId);
         const bodyValidation = await validation.validateAsync(req.body);
         const {items} = bodyValidation;
@@ -65,12 +66,12 @@ const placeOrder = async function placeOrder(req,res,next) {
                     }).catch((err)=>{
                         console.log(err);
                     });
-                  httpResponse({status_code:200, response_message:'Your order has been successfully placed',data:{},res});
+                  httpResponse({status_code:200, response_message:language==german?'Ihre Bestellung wurde erfolgreich aufgegeben':'Your order has been successfully placed',data:{},res});
                 }
             }
             }
         }else{
-            const e = new HttpError(400, 'Please add your shipping address, before placing order');
+            const e = new HttpError(400,language==german?'Bitte fügen Sie Ihre Lieferadresse hinzu, bevor Sie eine Bestellung aufgeben': 'Please add your shipping address, before placing order');
             return next(e);
         }
     } catch (error) {

@@ -15,14 +15,14 @@ const router = express.Router();
 
 
 
-router.post('/add-products',uploadProduct);
 
-router.put('/update-product/:productId', updateProduct)
-router.delete('/delete-product/:productId', deleteProducts)
 
 router.post('/upload-file/:bucket_name', multerFileUpload.single('file'),uploadFileToServer);
 router.get('/download-image/:image_key/:bucket_name', fetchImageFromServer);
 router.use(verifyToken);
+router.post('/add-products',uploadProduct);
+router.delete('/delete-product/:productId', deleteProducts)
+router.put('/update-product/:productId', updateProduct)
 router.post('/promo-code', generateCode);
 router.post('/send-notification', sendGroupNotification);
 router.delete('/expired-code', expiredCode);

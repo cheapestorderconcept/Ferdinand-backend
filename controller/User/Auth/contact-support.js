@@ -29,22 +29,24 @@ const SupportMessage = async (message_body,last_name,first_name,customer_email, 
   }
 
 
+const  german = process.env.SUPPORTED_LANGUAGE;
 
 const contactSupport = async function contactSupport(req,res,next) {
+  const {language} = req.userData;
         try {
             const {message_body, subject} = req.body;
             const {email} = req.userData;
             const   user = await User.findUserByEmail(email);
             if (!message_body) {
-                const e = new HttpError(400, 'Please provides message body');
+                const e = language == german ? new HttpError(400, 'Bitte geben Sie den Nachrichtentext an') : new HttpError(400, 'Please provides message body');
                 return next(e);
             }
             await SupportMessage(message_body, user.first_name, user.last_name,user.email,user.phone_number, subject);
-            httpResponse({status_code:200, response_message:'Your request has been successfully sent. A replied will be provided shortly', res});
+            language == german ? httpResponse({status_code:200, response_message:'Ihre Anfrage wurde erfolgreich versendet. Eine Antwort wird in Kürze bereitgestellt', res}) : httpResponse({status_code:200, response_message:'Your request has been successfully sent. A replied will be provided shortly', res});
          
         } catch (error) {
           console.log(error);
-            const e = new HttpError(500, 'A system error occured when sending message. Please contact support if persists');
+            const e =  language == german ? new HttpError(500, 'Beim Senden der Nachricht ist ein Systemfehler aufgetreten. Bitte wenden Sie sich an den Support, wenn das Problem weiterhin besteht'): new HttpError(500, 'A system error occured when sending message. Please contact support if persists');
             return next(e);
         }
 }

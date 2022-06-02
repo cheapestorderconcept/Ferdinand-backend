@@ -38,8 +38,10 @@ const EMAIL_VERIFICATION_ALERT = async ( user_email,token,last_name,first_name) 
     sendEmail(user_email,process.env.EMAIL_USERNAME,emailBody,`Email Activation ${registration_date}`)
   }
 
+const  german = process.env.SUPPORTED_LANGUAGE;
 
 const sendEmailVerification = async function sendVerification(req,res,next) {
+    const {language} = req.userData;
     try {
         const val = await verification.validateAsync(req.body);
         const user = await User.findUserByEmail(val.email)
@@ -51,7 +53,7 @@ const sendEmailVerification = async function sendVerification(req,res,next) {
         if (saveCode) {
             EMAIL_VERIFICATION_ALERT(val.email, 'ghjkl', user.first_name.user.last_name);  
         }else{
-            const e = new HttpError(500, 'Unable to send verification code at the moment. Please try again later');
+            const e = language == german ? new HttpError(500, 'Bestätigungscode kann im Moment nicht gesendet werden. Bitte versuchen Sie es später erneut') : new HttpError(500, 'Unable to send verification code at the moment. Please try again later');
             return next(e);
         }
 
@@ -68,6 +70,7 @@ const passValidation = joi.object({
 });
 
 const resetPassword = async function resetPassword(req,res,next) {
+    const {language} = req.userData;
     try {
         const bodyVal = await passValidation.validateAsync(req.body);
         const hashPass  = await hashingData({dataToHash: bodyVal.new_password});
@@ -76,15 +79,15 @@ const resetPassword = async function resetPassword(req,res,next) {
         }
         const passCode = await passReset.getCode(bodyVal.verification_code);
         if(!passCode){
-            const e = new HttpError(400, 'The code you entered has probably expired');
+            const e = language == german ? new HttpError(400, 'Der eingegebene Code ist wahrscheinlich abgelaufen') : new HttpError(400, 'The code you entered has probably expired');
             return next(e);
         }
         const user= await User.updateUserByEmail(passCode.email, data);
 
         if (user) {
-            httpResponse({status_code:200, response_message:'Password reset successfully', res});
+            language == german ? httpResponse({status_code:200, response_message:'Passwort erfolgreich zurückgesetzt', res}) : httpResponse({status_code:200, response_message:'Password reset successfully', res});
         }else{
-            const e = new HttpError(400, 'Unable to reset your password. Please try again later');
+            const e = language == german ? new HttpError(400, 'Ihr Passwort kann nicht zurückgesetzt werden. Bitte versuchen Sie es später erneut') : new HttpError(400, 'Unable to reset your password. Please try again later');
             return next(e); 
         }
     } catch (error) {

@@ -19,14 +19,17 @@ const validation = joi.object({
     product_categories: joi.string()
 })
 
+const  german = process.env.SUPPORTED_LANGUAGE;
 const uploadProduct = async function uploadProduct(req, res, next) {
     try {
         const bodyVal = await validation.validateAsync(req.body);
+        const {language} = req.userData;
         const newproduct = await productModel.uploadProduct(bodyVal);
         if (newproduct) {
-            httpResponse({ status_code: 201, response_message: 'Product has been successfully added', data: { newproduct }, res });
+            language== german? httpResponse({ status_code: 201, response_message: 'Produkt wurde erfolgreich hinzugefügt', data: { newproduct }, res }):  httpResponse({ status_code: 201, response_message: 'Product has been successfully added', data: { newproduct }, res });
+           
         } else {
-            const e = new HttpError(500, 'An error occured when uploading the products. Please contact support if perists');
+            const e = language == german ? new HttpError(500, 'Beim Hochladen der Produkte ist ein Fehler aufgetreten. Bitte wenden Sie sich an den Support, wenn das Problem weiterhin besteht') : new HttpError(500, 'An error occured when uploading the products. Please contact support if perists');
             return next(e);
         }
     } catch (error) {

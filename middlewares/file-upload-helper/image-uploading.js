@@ -23,16 +23,17 @@ const fetchImageFromServer=(req,res,next)=>{
         return next(new HttpError(500, 'Internal server error')); 
     }
 }
-
+const german = process.env.SUPPORTED_LANGUAGE
 const uploadFileToServer=async(req,res,next)=>{
     try {
         const file = req.file;
         const {bucket_name}=req.params;
+        const {language} = req.userData;
         if(!file)return next(new HttpError(400, 'Please select a picture to be uploaded'));
         if(!bucket_name)return next(new HttpError(400, 'Please provide a bucketName'));
         const uploadedFile = await amazonS3FileUpload({file,AWS_ACCESS_KEY_ID,AWS_BUCKET_NAME:bucket_name,AWS_REGION,AWS_SECRET_ACCESS_KEY});
-        httpResponse({status_code: 200, response_message: 'Image successfully uploaded',data: uploadedFile,res}); 
-        console.log(uploadedFile);
+        httpResponse({status_code: 200, response_message: language==german?'Bild erfolgreich hochgeladen':'Image successfully uploaded',data: uploadedFile,res}); 
+      
     } catch (error) {
         console.log(error);
        const err = new HttpError(500,'Product picture not successfully uploaded');

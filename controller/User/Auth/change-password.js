@@ -13,7 +13,10 @@ const validation = joi.object({
     confirm_password: joi.string()
 })
 
+const  german = process.env.SUPPORTED_LANGUAGE;
+
 const changePassword = async function changePassword(req,res,next) {
+    const {language} = req.userData;
     try {
         const { userId } = req.userData;
         const bodyValidation = await validation.validateAsync(req.body);
@@ -30,14 +33,14 @@ const changePassword = async function changePassword(req,res,next) {
                 }
                 const updatedUser = await User.updateUser(userId, data);
                 if (updatedUser) {
-                    httpResponse({ status_code: 200, response_message: 'Password successfully changed', data: { updatedUser }, res })
+                    language == german ? httpResponse({ status_code: 200, response_message: 'Passwort erfolgreich geändert', data: { updatedUser }, res }) : httpResponse({ status_code: 200, response_message: 'Password successfully changed', data: { updatedUser }, res });
                 } else {
 
-                    const e = new HttpError(400, 'Unable to change the password. Please contct support');
+                    const e = language == german ?  new HttpError(400, 'Das Passwort kann nicht geändert werden. Bitte wenden Sie sich an den Support') :  new HttpError(400, 'Unable to change the password. Please contct support');
                     return next(e);
                 }
             } else {
-                const e = new HttpError(400, 'You have provided a wrong old password');
+                const e = language == german ?  new HttpError(400, 'Sie haben ein falsches altes Passwort angegeben') :  new HttpError(400, 'You have provided a wrong old password');
                 return next(e);
             }
         }
