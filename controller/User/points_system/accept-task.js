@@ -17,7 +17,7 @@ const acceptTask = async function acceptTask(req,res,next){
         const task =  await pointSystem.taskDetails(taskId);  
         if (task) {
             const { user} = task;
-            User.findOneAndUpdate({_id:user}, {points:point});
+           await  User.findOneAndUpdate({_id:user}, {points:point});
            await  pointSystem.findOneAndDelete({_id: taskId});
             httpResponse({status_code:200, response_message:language==german?`Aufgabe angenommen und ${point} vergeben`:`Task accepted and ${point} awarded`, data:{}, res});
             deleteS3UploadedImage({imageKey:task.task, bucketName:'demo-bucket'});
