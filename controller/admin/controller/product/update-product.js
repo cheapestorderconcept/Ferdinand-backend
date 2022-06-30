@@ -25,7 +25,7 @@ const updateProduct = async function updateProduct(req, res, next) {
         }
         const updatedProduct = await productModel.updateProduct(productId, data);
         if (updatedProduct) {
-    httpResponse({ status_code: 200, response_message: language==german?'Produkt verfügbar':'Product available', data: { updatedProduct }, res }) 
+        httpResponse({ status_code: 200, response_message: language==german?'Produkt verfügbar':'Product available', data: { updatedProduct }, res }) 
         } else {
             const e =  new HttpError(400,  language == german ?'Das Produkt kann derzeit nicht aktualisiert werden. Wenden Sie sich an den Support, wenn das Problem weiterhin besteht':'Unable to update product at the moment. Contact support if persists')
             return next(e);

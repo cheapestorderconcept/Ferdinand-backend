@@ -10,7 +10,9 @@ const { registerUser } = require('../controller/User/Auth/signup');
 const { placeOrder } = require('../controller/User/order/place-order');
 const { myOrder } = require('../controller/User/order/view-order');
 const { initiatePayment } = require('../controller/User/payment/stripe');
-const { addFavoritesProduct, favoritesList, deleteFavoritedProduct } = require('../controller/User/product/favorites');
+const { uploadTask } = require('../controller/User/points_system/upload-task');
+const { viewAllTasks } = require('../controller/User/points_system/view-uploaded-task');
+const { addFavoritesProduct, favoritesList, deleteFavoritedProduct, favoritesListDetails } = require('../controller/User/product/favorites');
 const { recommendedProducts } = require('../controller/User/product/recommended_products');
 const { userGetAllProduct, userGetSingleProduct, flashSalesProduct } = require('../controller/User/product/view-product');
 const { addProductToWishList, viewWishlist } = require('../controller/User/product/wishlist');
@@ -34,9 +36,12 @@ router.delete('/delete-profile', deleteProfile);
 router.post('/change-password', changePassword)
 router.post('/support',contactSupport)
 router.post('/add-wishlist', addProductToWishList)
-router.post('/add-favorites',addFavoritesProduct)
-router.get('/view-wishlist', viewWishlist)
+router.post('/add-favorites',addFavoritesProduct);
+router.get('/view-wishlist', viewWishlist);
 router.get('/view-favorites', favoritesList);
+router.get('/view-favorites-details/:productId', favoritesListDetails);
+router.get('/view-task', viewAllTasks);
+router.post('/upload-task', uploadTask)
 router.delete('/delete-favorites?', deleteFavoritedProduct);
 
 

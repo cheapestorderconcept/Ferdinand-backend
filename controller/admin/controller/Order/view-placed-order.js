@@ -3,8 +3,6 @@ const { httpResponse } = require("../../../../middlewares/http/http-response");
 const { orderModel } = require("../../../../model/order");
 
 
-
-
 const viewClientPlacedOrder = async function viewClientPlacedOrder(params) {
     try {
      const {orderStatus} = req.query;

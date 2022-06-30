@@ -33,8 +33,8 @@ const downloadS3UploadedFile =function downloadImageFromS3Bucket ({ imageKey, bu
 const deleteS3UploadedImage = ({ imageKey, bucketName }) => {
     try {
         const uploadedImageParams = {
-            imageKey,
-            bucketName
+           Key: imageKey,
+           Bucket: bucketName
         }
         return s3Config.deleteObject(uploadedImageParams).promise()
     } catch (error) {

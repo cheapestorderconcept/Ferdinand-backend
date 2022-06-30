@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const favoritesProductSchema =new mongoose.Schema({
     product: {type: {}},
+    productId: {type:String},
     user: {type: mongoose.Types.ObjectId, ref: 'user'}
 }, {
   timestamps:true  

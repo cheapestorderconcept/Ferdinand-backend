@@ -1,21 +1,23 @@
 
-
 const mongoose = require('mongoose');
-
 const schema = mongoose.Schema
-
+var randomstring = require("randomstring");
 const userSchema = new schema({
     first_name: {type:String, required:true},
     last_name: {type:String, required:true},
     phone_number: {type:String}, 
     image: {type:String},
+    made_first_purchase:{type: Boolean, default:false},
+    referral_id: {type: String, default: randomstring.generate(7)},
+    referred_by:{type:String},
     points: {type:Number, default:0},
+    accumulated_points: {type:Number, default: 0},
     email: {type:String, required:true, unique:true},
     role: {type:String, default:'client'},
     password: {type:String, required:true}
 },{
     timestamps: true,
-})
+});
 
 
 

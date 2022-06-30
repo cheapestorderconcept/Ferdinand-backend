@@ -8,7 +8,8 @@ const  german = process.env.SUPPORTED_LANGUAGE;
 const generateCode = async function(req,res,next){
     const {language} = req.userData;
     try {
-      const {percentage} = req.body;
+      const {percentage, discount_name} = req.body;
+      
       if (!percentage) {
          return next(language == german ? new HttpError(400, "Bitte geben Sie den Prozentsatz an, der ausgeschaltet werden soll") : new HttpError(400, "Please supply percenatage to be off")) 
       } 
@@ -16,9 +17,9 @@ const generateCode = async function(req,res,next){
       if (existingCode&&existingCode.length>0) {
           return next(language == german ? new HttpError(400, "Bitte löschen Sie den vorhandenen Code, bevor Sie einen neuen generieren") : new HttpError(400, "Please delete the existing code before generating new one"));
       }
-      const code = `Bagofsage${percentage}`
+      const code = `${discount_name}`
       const newCode = new promoCode({
-          code,
+          code: discount_name,
           value: percentage
       })
       newCode.save((err)=>{

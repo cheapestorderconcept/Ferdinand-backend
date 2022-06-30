@@ -17,13 +17,17 @@ app.use('/api/v1/client', appRouter)
 
 
 app.use((error,req,res,next)=>{
-  console.log(error);
   if (res.headerSent) {
       return next(error)
   } else {
+     if (error.code=='LIMIT_FILE_SIZE') {
+      res.status(400).json({response_message:'The file exceed the permited size'});
+     }else{
       res.status(error.status_code || 500).json({ status_code: error.status_code, response_message: error.response_message || 'An unknown error occured' });  
+     }
+    
   }
-})
+});
 
 databaseAuthentication().then(()=>{
 console.log('database connected');

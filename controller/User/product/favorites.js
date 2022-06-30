@@ -15,12 +15,12 @@ const german = process.env.SUPPORTED_LANGUAGE;
 const addFavoritesProduct = async function addFavoritesProduct(req,res,next) {
     const {userId, language} = req.userData;
     try {
-      
         const val = await validation.validateAsync(req.body);
         const product  = await productModel.getSingleProduct(val.product);
       
         const details = {
             product,
+            productId: val.product,
             user: userId
         }
    
@@ -80,4 +80,23 @@ const deleteFavoritedProduct = async function deleteFavoritedProduct(req,res,nex
     }
 }
 
-module.exports={favoritesList,addFavoritesProduct, deleteFavoritedProduct}
+const favoritesListDetails = async function favoritesListDetails(req,res,next) {
+    const {userId, language} = req.userData;
+    const {productId} = req.params;
+    try {
+         const favorites = await favoritesProductModel.findOne({user:userId, productId:productId });
+         if (favorites) {
+            httpResponse({status_code: 200, response_message:'Favorites products list', data:{favorites:true},res});
+            return;
+         }
+         const e = new HttpError(404,language==german?'Sie haben kein Produkt zu Ihren Favoriten hinzugefügt. Jetzt Produkte hinzufügen': 'You have not added any product to your favorites. Add products now');
+         return next(e);
+    } catch (error) {
+        console.log(error);
+        const e = new HttpError(500, language==german?'Im System ist ein Fehler aufgetreten': 'An error occured with the system');
+        return next(e)
+    }
+}
+
+
+module.exports={favoritesList,addFavoritesProduct, deleteFavoritedProduct,favoritesListDetails}

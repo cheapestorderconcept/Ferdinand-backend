@@ -2,6 +2,7 @@ const { HttpError } = require("../../../middlewares/errors/http-error");
 const { httpResponse } = require("../../../middlewares/http/http-response");
 const { productModel } = require("../../../model/product");
 
+const german = process.env.SUPPORTED_LANGUAGE;
 
 const recommendedProducts = async function recommendedProducts(req,res,next){
     try {

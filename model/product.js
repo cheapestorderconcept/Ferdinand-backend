@@ -9,6 +9,7 @@ const productSchema = new schema({
     views: {type:Number, default:0},
     units: {type:String},
     discount: {type:Number},
+    isLiked: {type: Boolean, default:false},
     status: {type:String},
     about_product:{type:String},
     vat: {type:Number},

@@ -7,7 +7,7 @@ const { httpResponse } = require('../../../middlewares/http/http-response');
 const { User } = require('../../../model/User/user');
 
 const validation = joi.object({
-    email: joi.string().email(),
+    email: joi.string().email().trim(),
     password: joi.string(),
     language: joi.string().required()
 })
