@@ -9,7 +9,7 @@ const promoCode = require('../../admin/model/promo_code');
 const german = process.env.SUPPORTED_LANGUAGE
 const initiatePayment = async function initiatePayment(req,res,next){
     try {
-        const {total_amount,discount_code} = req.body;
+        const {total_amount,discount_code, user_points} = req.body;
         const {userId, language} = req.userData;
         const shippingAddress = await Shipping.getAddress(userId);
         if (!total_amount) {
@@ -27,21 +27,21 @@ const initiatePayment = async function initiatePayment(req,res,next){
           User.findOneAndUpdate({referral_id: userAcct.referredBy}, {$inc:{points: 100}});  
           User.updateUserByEmail(userAcct.email,{$inc:{made_first_purchase:true}});
         }
-        if (userAcct&&userAcct.points>=100&&!discount_code) {
+        if (userAcct&&user_points>=100&&!discount_code) {
           //use the points earned on referral to get discounts on the total amount
-            if (userAcct>=100&&userAcct <200) {
+            if (userAcct>=100&&user_points <200) {
                 amountToPay = total_amount * 0.1;
                 const data = {
                  $inc: { points: -100 } 
                } 
                User.updateUserByEmail(userAcct.email, data); 
-            } else if(userAcct>=200&&userAcct.points <500){
+            } else if(userAcct>=200&&user_points <500){
                 amountToPay = total_amount * 0.15;
                 const data = {
                  $inc: { points: -200 } 
                } 
                User.updateUserByEmail(userAcct.email, data);  
-            }else if (userAcct.points>=500) {
+            }else if (user_points>=500) {
                 amountToPay = total_amount * 0.2;
                 const data = {
                  $inc: { points: -500 } 
