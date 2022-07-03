@@ -68,16 +68,18 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
             }
         }
-          console.log(`${amountToPay} changed`);
+         
           const finalAmountPaid = Number(amountToPay*100);
+          console.log(`${finalAmountPaid} changed`);
         const paymentIntent = await stripe.paymentIntents.create({
             amount: finalAmountPaid,
             currency: 'chf',
             payment_method_types: ['card'],
           });
+          console.log(`${finalAmountPaid} changed below`);
           httpResponse({status_code:201, response_message:language==german?'Zahlungsabsicht erstellt':'Payment intent created', data: {client_secret: paymentIntent.client_secret}, res});
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         const e = new HttpError(500, language==german?'Wir können die Zahlung derzeit nicht veranlassen':'We are unable to initiate the payment at the moment');
         return next(e);
     }
