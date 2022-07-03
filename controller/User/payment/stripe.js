@@ -35,19 +35,19 @@ const initiatePayment = async function initiatePayment(req,res,next){
         if (userAcct&&user_points>=100&&!discount_code) {
           //use the points earned on referral to get discounts on the total amount
             if (user_points>=100&&user_points <200) {
-                amountToPay = total_amount * 0.1;
+                amountToPay = total_amount - (total_amount*0.1);
                 const data = {
                  $inc: { points: -user_points } 
                } 
                User.updateUserByEmail(userAcct.email, data); 
             } else if(user_points>=200&&user_points <500){
-                amountToPay = total_amount * 0.15;
+                amountToPay =total_amount - (total_amount*0.15);
                 const data = {
                  $inc: { points: -user_points } 
                } 
                User.updateUserByEmail(userAcct.email, data);  
             }else if (user_points>=500) {
-                amountToPay = total_amount * 0.2;
+                amountToPay = total_amount - (total_amount*0.2);
                 const data = {
                  $inc: { points: -user_points } 
                } 
