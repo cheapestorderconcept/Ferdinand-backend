@@ -64,6 +64,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
              else {
                 amountToPay = total_amount;
+                console.log(`${amountToPay} is here`);
             }
             }
         }
