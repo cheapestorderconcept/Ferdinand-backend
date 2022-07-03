@@ -22,7 +22,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
            return next(e);   
         }
         let amountToPay; 
-        const userAcct = User.findUserById(userId);
+        const userAcct =await User.findUserById(userId);
         if (user_points>userAcct.points) {
           const e = new HttpError(400, language==german?'Bitte fügen Sie Ihrem Konto eine Lieferadresse hinzu, um fortzufahren':'Please add a shipping address to your account to continue');
           return next(e);  
@@ -69,7 +69,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
         }
          
-          const finalAmountPaid = Math.floor(Number(amountToPay*100));
+          const finalAmountPaid = Math.floor(Number(amountToPay*100)); //needs maintenance
           console.log(`${amountToPay} changed`);
         const paymentIntent = await stripe.paymentIntents.create({
             amount: finalAmountPaid,
