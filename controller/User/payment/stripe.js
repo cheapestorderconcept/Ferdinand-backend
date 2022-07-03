@@ -36,6 +36,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
           //use the points earned on referral to get discounts on the total amount
             if (user_points>=100&&user_points <200) {
                 amountToPay = total_amount - (total_amount*0.1);
+                console.log(amountToPay);
                 const data = {
                  $inc: { points: -user_points } 
                } 
@@ -66,7 +67,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
             }
         }
-      
+        
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amountToPay *100,
             currency: 'chf',
