@@ -33,7 +33,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
           User.updateUserByEmail(userAcct.email,{$inc:{made_first_purchase:true}});
         }
         if (userAcct&&user_points>=100&&!discount_code) {
-          //use the points earned on referral to get discounts on the total amount
+ 
             if (user_points>=100&&user_points <200) {
                 amountToPay = Number(total_amount) - (Number(total_amount)*0.1);
                 console.log(amountToPay);
@@ -68,7 +68,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
             }
         }
-        
+          console.log(`${amountToPay} changed`);
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amountToPay *100,
             currency: 'chf',
