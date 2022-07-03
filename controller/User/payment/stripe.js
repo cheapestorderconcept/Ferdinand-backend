@@ -69,8 +69,9 @@ const initiatePayment = async function initiatePayment(req,res,next){
             }
         }
           console.log(`${amountToPay} changed`);
+          const finalAmountPaid = Number(amountToPay*100);
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amountToPay *100,
+            amount: finalAmountPaid,
             currency: 'chf',
             payment_method_types: ['card'],
           });
