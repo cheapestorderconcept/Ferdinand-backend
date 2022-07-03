@@ -33,7 +33,7 @@ const registerUser = async function registerUser(req,res,next) {
               const {first_name} = referral;
               User.updateUserByEmail(referral.email, data); //award points to referral
               ejs.renderFile(path.join(__dirname, "../../../views/referral-email.ejs"), {
-                order: items,
+                order: [],
                 first_name,
                 last_name,
                 address,

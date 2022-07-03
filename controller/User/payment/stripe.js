@@ -8,20 +8,25 @@ const promoCode = require('../../admin/model/promo_code');
 
 const german = process.env.SUPPORTED_LANGUAGE
 const initiatePayment = async function initiatePayment(req,res,next){
+  const {userId, language} = req.userData;
     try {
         const {total_amount,discount_code, user_points} = req.body;
-        const {userId, language} = req.userData;
+       
         const shippingAddress = await Shipping.getAddress(userId);
         if (!total_amount) {
            const e = new HttpError(400, language==german?'Bitte geben Sie den Gesamtbetrag an':'Please provide total_amount');
            return next(e); 
         }
         if (!shippingAddress) {
-            const e = new HttpError(400, language==german?'Bitte fügen Sie Ihrem Konto eine Lieferadresse hinzu, um fortzufahren':'Please add a shipping address to your account to continue');
+            const e = new HttpError(400, language==german?'Sie haben nicht genügend Punkte. Bitte führen Sie eine Aufgabe aus oder laden Sie einen Benutzer ein, um Punkte zu sammeln':'You have insufficient points. Please perform task or invite a user to earn points');
            return next(e);   
         }
         let amountToPay; 
         const userAcct = User.findUserById(userId);
+        if (user_points>userAcct.points) {
+          const e = new HttpError(400, language==german?'Bitte fügen Sie Ihrem Konto eine Lieferadresse hinzu, um fortzufahren':'Please add a shipping address to your account to continue');
+          return next(e);  
+        }
         /***Reward the person that referred with 100 points */
         if (userAcct&&userAcct.referredBy&&userAcct.made_first_purchase==false) {
           User.findOneAndUpdate({referral_id: userAcct.referredBy}, {$inc:{points: 100}});  
@@ -29,22 +34,22 @@ const initiatePayment = async function initiatePayment(req,res,next){
         }
         if (userAcct&&user_points>=100&&!discount_code) {
           //use the points earned on referral to get discounts on the total amount
-            if (userAcct>=100&&user_points <200) {
+            if (user_points>=100&&user_points <200) {
                 amountToPay = total_amount * 0.1;
                 const data = {
-                 $inc: { points: -100 } 
+                 $inc: { points: -user_points } 
                } 
                User.updateUserByEmail(userAcct.email, data); 
-            } else if(userAcct>=200&&user_points <500){
+            } else if(user_points>=200&&user_points <500){
                 amountToPay = total_amount * 0.15;
                 const data = {
-                 $inc: { points: -200 } 
+                 $inc: { points: -user_points } 
                } 
                User.updateUserByEmail(userAcct.email, data);  
             }else if (user_points>=500) {
                 amountToPay = total_amount * 0.2;
                 const data = {
-                 $inc: { points: -500 } 
+                 $inc: { points: -user_points } 
                } 
                User.updateUserByEmail(userAcct.email, data); 
             }

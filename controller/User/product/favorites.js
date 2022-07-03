@@ -45,7 +45,6 @@ const addFavoritesProduct = async function addFavoritesProduct(req,res,next) {
 const favoritesList = async function favoriteList(req,res,next) {
     const {userId, language} = req.userData;
     try {
-
          const favorites = await favoritesProductModel.viewFavorites(userId);
          if (favorites&&favorites.length>0) {
             httpResponse({status_code: 200, response_message:'Favorites products list', data:{favoriteList:favorites},res});

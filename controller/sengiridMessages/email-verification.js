@@ -17,5 +17,6 @@ const OrderPlacementAlert = async ( emailTemplate,firstName, email) => {
       }
   module.exports={
       OrderPlacementAlert,
-      ClientOrderAlert
+      ClientOrderAlert,
+      referralAlert
   }
