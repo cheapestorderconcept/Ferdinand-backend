@@ -18,7 +18,7 @@ const initiatePayment = async function initiatePayment(req,res,next){
            return next(e); 
         }
         if (!shippingAddress) {
-            const e = new HttpError(400, language==german?'Sie haben nicht genügend Punkte. Bitte führen Sie eine Aufgabe aus oder laden Sie einen Benutzer ein, um Punkte zu sammeln':'You have insufficient points. Please perform task or invite a user to earn points');
+            const e = new HttpError(400, language==german?'Sie haben Ihrem Konto keine Lieferadresse hinzugefügt, bitte fügen Sie sie jetzt hinzu':'You have not added a shipping address to your account. Pleaese do so');
            return next(e);   
         }
         let amountToPay; 
