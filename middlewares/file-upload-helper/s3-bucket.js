@@ -23,8 +23,7 @@ const downloadS3UploadedFile =function downloadImageFromS3Bucket ({ imageKey, bu
         }
         return s3Config.getObject(uploadedImageParams).createReadStream();
         
-    } catch (error) {
-       
+    } catch (error) {    
         throw new Error(error);
     }
 }

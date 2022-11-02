@@ -4,7 +4,6 @@ const res = require('express/lib/response');
 const { databaseAuthentication } = require('./config/database');
 const app = express();
 const cors = require('cors');
-
 const appRouter = require('./routes/routes');
 
 const adminRoutes = require('./routes/admin-routes');
